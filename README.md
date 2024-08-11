@@ -32,5 +32,5 @@ docker compose up
 To pull image and run the app run the following command :
 
 ```shell
-n/a
+docker compose up -f docker-compose.images.yml
 ```
