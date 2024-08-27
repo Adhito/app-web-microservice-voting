@@ -8,10 +8,15 @@ user="${POSTGRES_USER:-postgres}"
 db="${POSTGRES_DB:-$POSTGRES_USER}"
 export PGPASSWORD="${POSTGRES_PASSWORD:-}"
 
-## Create a set of arguments for a command for postgres to not use the local unix socket 
+## Configure a set of arguments for a command for postgres to not use the local unix socket 
 args=(
 	--host "$host"
 	--username "$user"
 	--dbname "$db"
 	--quiet --no-align --tuples-only
 )
+
+## Check if the PostgreSQL database is reachable and operational
+if select="$(echo 'SELECT 1' | psql "${args[@]}")" && [ "$select" = '1' ]; then
+	exit 0
+fi
